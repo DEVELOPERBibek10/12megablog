@@ -1,6 +1,5 @@
 import Config from "../Config/Config.js";
 import { Client, Account, ID } from "appwrite";
-import { useNavigate } from "react-router-dom";
 
 export class AuthService {
   client = new Client();
