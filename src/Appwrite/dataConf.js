@@ -15,7 +15,14 @@ export class Service {
     this.storage = new Storage(this.client);
   }
 
-  async createPostRequest({ title, content, slug, featuredImage, userId }) {
+  async createPostRequest({
+    title,
+    content,
+    status,
+    slug,
+    featuredImage,
+    userId,
+  }) {
     try {
       await this.databases.createDocument(
         Config.appwriteDatabaseId,
