@@ -11,30 +11,21 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    authService
-      .getCurrentUser()
-      .then((userData) => {
-        if (userData) {
-          dispatch(login({ userData }));
-        } else {
-          console.log("User Data not authenticated");
-          dispatch(logout());
-        }
-      })
-      .finally(() => setloading(false));
-  }, [dispatch]);
-
-  useEffect(() => {
     const initializeUser = async () => {
       try {
         const userData = await authService.getCurrentUser();
         if (userData) {
           dispatch(login(userData));
+        } else {
+          dispatch(logout());
         }
       } catch (error) {
         console.error("Error fetching user on app start:", error);
+      } finally {
+        setloading(false);
       }
     };
+
     initializeUser();
   }, [dispatch]);
 
