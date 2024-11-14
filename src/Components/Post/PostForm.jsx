@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../Button";
 import Input from "../Input";
@@ -7,7 +7,7 @@ import RTE from "../RTE";
 import service from "../../Appwrite/dataConf";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import authService from "../../Appwrite/auth";
 
 function PostForm({ post }) {
   const { register, handleSubmit, watch, setValue, control, getValues } =
@@ -20,8 +20,26 @@ function PostForm({ post }) {
       },
     });
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.userData);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    // If userData is not available in the store, fetch it from the service
+    if (!userData) {
+      const fetchUserData = async () => {
+        try {
+          const user = await authService.getCurrentUser(); // Fetch user data from Appwrite or API
+          setCurrentUser(user);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      };
+      fetchUserData();
+    } else {
+      setCurrentUser(userData); // If userData is available in the store, use it directly
+    }
+  }, [userData]);
+
   const submit = async (data) => {
     try {
       if (post) {
@@ -60,7 +78,7 @@ function PostForm({ post }) {
 
         const newPostData = {
           ...data,
-          userId: userData.$id,
+          userId: currentUser.$id, // Use currentUser or userData
         };
 
         // Create the post (may return 204)
@@ -79,12 +97,6 @@ function PostForm({ post }) {
       console.error("Error during submission:", error);
     }
   };
-
-  useEffect(() => {
-    if (!userData) {
-      dispatch(fetchUserData()); // Fetch or reinitialize user data here
-    }
-  }, [userData, dispatch]);
 
   const slugTransform = useCallback((value) => {
     if (value && typeof value === "string") {
