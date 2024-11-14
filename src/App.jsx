@@ -24,6 +24,20 @@ function App() {
       .finally(() => setloading(false));
   }, [dispatch]);
 
+  useEffect(() => {
+    const initializeUser = async () => {
+      try {
+        const userData = await authService.getCurrentUser();
+        if (userData) {
+          dispatch(login(userData));
+        }
+      } catch (error) {
+        console.error("Error fetching user on app start:", error);
+      }
+    };
+    initializeUser();
+  }, [dispatch]);
+
   return !loading ? (
     <div className="min-h-screen flex flex-wrap content-between">
       <div className="w-full block">
