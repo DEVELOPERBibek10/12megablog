@@ -7,6 +7,7 @@ import RTE from "../RTE";
 import service from "../../Appwrite/dataConf";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 function PostForm({ post }) {
   const { register, handleSubmit, watch, setValue, control, getValues } =
@@ -19,6 +20,7 @@ function PostForm({ post }) {
       },
     });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.userData);
   const submit = async (data) => {
     try {
@@ -77,6 +79,12 @@ function PostForm({ post }) {
       console.error("Error during submission:", error);
     }
   };
+
+  useEffect(() => {
+    if (!userData) {
+      dispatch(fetchUserData()); // Fetch or reinitialize user data here
+    }
+  }, [userData, dispatch]);
 
   const slugTransform = useCallback((value) => {
     if (value && typeof value === "string") {
