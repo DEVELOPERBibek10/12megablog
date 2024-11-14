@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { login as authLogin } from "../Features/authSlice";
+import { login } from "../Features/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "./Button";
 import { Logo } from "./Header/Logo";
@@ -14,14 +14,14 @@ function Login() {
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState("");
 
-  const login = async (data) => {
+  const loginUser = async (data) => {
     setError("");
     try {
       const session = await authService.login(data);
       if (session) {
         const userData = await authService.getCurrentUser();
         if (userData) {
-          dispatch(authLogin(userData)); // Dispatch user data to Redux
+          dispatch(login(userData)); // Dispatch user data to Redux
           navigate("/"); // Navigate after dispatch
         }
       }
@@ -53,7 +53,7 @@ function Login() {
           </Link>
         </p>
         {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
-        <form onSubmit={handleSubmit(login)}>
+        <form onSubmit={handleSubmit(loginUser)}>
           <div className="space-y-5">
             <Input
               label="Email"
