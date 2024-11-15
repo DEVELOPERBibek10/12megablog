@@ -57,6 +57,8 @@ export default function Post() {
         <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
           <img
             src={service.getFilePreview(post.featuredImage)}
+            height={300}
+            width={300}
             alt={post.title}
             className="rounded-xl"
           />
@@ -73,10 +75,10 @@ export default function Post() {
             </div>
           ) : null}
         </div>
-        <div className="w-full mb-6">
-          <h1 className="text-2xl font-bold">{post.title}</h1>
+        <div className="w-full p-4 border my-4 rounded-xl">
+          <h1 className="text-3xl font-bold my-3 text-center">{post.title}</h1>
+          <div className="browser-css w-full ">{parse(post.content)}</div>
         </div>
-        <div className="browser-css">{parse(post.content)}</div>
       </Container>
     </div>
   ) : null;
