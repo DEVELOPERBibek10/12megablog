@@ -1,7 +1,5 @@
 import Config from "../Config/Config.js";
 import { Client, Databases, Storage, Query, ID } from "appwrite";
-import authService from "./auth.js";
-import { useDispatch } from "react-redux";
 
 export class Service {
   client = new Client();
