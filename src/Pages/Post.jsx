@@ -9,6 +9,7 @@ import Loading from "../Components/Loading";
 
 export default function Post() {
   const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
   const { slug } = useParams();
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData); // Get user data from Redux
@@ -23,6 +24,7 @@ export default function Post() {
           const fetchedPost = await service.getPost(slug);
           if (fetchedPost) {
             setPost(fetchedPost);
+            setLoading(false);
           }
         } catch (error) {
           console.error("Failed to fetch post:", error);
@@ -52,7 +54,7 @@ export default function Post() {
     }
   };
 
-  if (post) {
+  if (post && !loading) {
     return (
       <div className="py-8">
         <Container>
