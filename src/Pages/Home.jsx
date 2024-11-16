@@ -5,6 +5,7 @@ import Container from "../Components/Container/Container";
 import authService from "../Appwrite/auth";
 import NoPost from "../Components/NoPost";
 import { useSelector } from "react-redux";
+import Loading from "../Components/Loading";
 
 function Home() {
   const [posts, setPosts] = useState([]);
@@ -50,11 +51,7 @@ function Home() {
 
   // Display a loading state while checking authentication or fetching posts
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-white">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-sky-500"></div>
-      </div>
-    );
+    return <Loading />;
   }
 
   // Show message for unauthenticated users

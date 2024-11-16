@@ -3,6 +3,7 @@ import service from "../Appwrite/dataConf";
 import Container from "../Components/Container/Container";
 import PostCard from "../Components/PostCard";
 import NoPost from "../Components/NoPost";
+import Loading from "../Components/Loading";
 function AllPosts() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -16,11 +17,7 @@ function AllPosts() {
   }, []);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-white">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-sky-500"></div>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (posts.length === 0) {
