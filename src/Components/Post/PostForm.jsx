@@ -23,17 +23,13 @@ function PostForm({ post }) {
   const submit = async (data) => {
     try {
       if (post) {
-        // Delete the existing featured image if it exists
-        if (post.featuredImage) {
-          await service.deleteFile(post.featuredImage);
-        }
-
         // Upload the new featured image if it exists
         const file = data.image[0]
           ? await service.uploadFile(data.image[0])
           : null;
         if (file) {
           data.featuredImage = file.$id;
+          await service.deleteFile(post.featuredImage);
         }
 
         // Update the post with the new data
