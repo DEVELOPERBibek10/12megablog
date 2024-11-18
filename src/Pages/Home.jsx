@@ -74,7 +74,9 @@ function Home() {
               <div key={post.$id} className="p-2 w-1/4">
                 <PostCard {...post} />
               </div>
-            ) : null
+            ) : (
+              <NoPost>No Active Posts Found.</NoPost>
+            )
           )}
         </div>
       </Container>
